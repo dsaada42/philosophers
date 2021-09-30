@@ -6,7 +6,7 @@
 #    By: dsaada <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 13:30:33 by dsaada            #+#    #+#              #
-#    Updated: 2021/09/27 15:26:10 by dsaada           ###   ########.fr        #
+#    Updated: 2021/09/30 17:07:13 by dsaada           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ OBJ = $(SRC:.c=.o)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) -lpthread -o $(NAME)
+	$(CC) $(OBJ) $(DEBUG) -lpthread -o $(NAME)
 
 all: $(NAME)
 

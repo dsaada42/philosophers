@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:29:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/09/27 19:01:32 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/09/30 17:21:39 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@
 # define TTEAT 50
 # define TTSLEEP 50
 # define TTDIE 200
+# define SUCCESS 1
+# define FAILURE -1
 
 typedef struct s_fork
 {
+	int		id;
 	pthread_mutex_t forkex;
 	int		state;
 }		t_fork;
@@ -32,6 +35,7 @@ typedef struct s_fork
 typedef struct s_philo
 {
 	pthread_t	philo;
+	struct s_var	*v;
 	int		id;
 	int		nb_meal;
 	long		last_meal;
