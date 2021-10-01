@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:27:57 by dsaada            #+#    #+#             */
-/*   Updated: 2021/09/30 17:35:29 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/10/01 14:21:52 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,40 @@ int	ft_sleep(int ms, t_var *v, t_philo *philo)
 {
 	long		time;
 
-	printf("Philo %d sleeping for %d ms\n", philo->id, ms);
 	time = get_time_ms();
 	while (get_time_ms() - time < ms)
 	{
 		if (get_time_ms() - philo->last_meal > v->tt_die)
 		{
-			//philo dies
-			printf("Philo %d died at %ld\n", philo->id, get_time_ms());
-			return (FAILURE);
+			pthread_mutex_lock(&(v->print));
+			printf("%ld %d died\n", get_time_ms(), philo->id);
+			pthread_mutex_unlock(&(v->print));
+			philo->state = -1;
+			return (SUCCESS);
 		}
-		//checking dans le cas ou etat = thinking (dispo des fourchettes)
 	}
-	printf("Philo %d has slept for %ld ms\n", philo->id, get_time_ms() - time);
+	return (SUCCESS);
+}
+
+int	get_forks(t_philo *phi, t_var *v)
+{
+	pthread_mutex_lock(&(v->forks[phi->l_fork].forkex));
+	v->forks[phi->l_fork].state = phi->id;
+	pthread_mutex_lock(&(v->forks[phi->r_fork].forkex));
+	v->forks[phi->r_fork].state = phi->id;
+	pthread_mutex_lock(&(v->print));
+        printf("%ld %d has taken a fork %d\n", get_time_ms(), phi->id, phi->l_fork);
+	printf("%ld %d has taken a fork %d\n", get_time_ms(), phi->id, phi->r_fork);
+        pthread_mutex_unlock(&(v->print));
+	return (SUCCESS);
+}
+
+int	release_forks(t_philo *phi, t_var *v)
+{
+	pthread_mutex_unlock(&(v->forks[phi->l_fork].forkex));
+        v->forks[phi->l_fork].state = 0;
+        pthread_mutex_unlock(&(v->forks[phi->r_fork].forkex));
+        v->forks[phi->r_fork].state = 0;
 	return (SUCCESS);
 }
 
@@ -46,17 +67,34 @@ void	*thread_func(void *data)
 {
 	t_philo	*phi;
 
-	phi = (t_philo *)data; 
-	printf("philo alive %d\n", phi->id);
-	ft_sleep(190, phi->v, phi);
+	phi = (t_philo *)data;
+	pthread_mutex_lock(&(phi->v->print));
+	printf("philo %d is alive\n", phi->id);
+	pthread_mutex_unlock(&(phi->v->print));
+	while (phi->state != -1)
+	{
+		//checking availability of both forks + eating
+		if (!(phi->v->forks[phi->l_fork].state) && !(phi->v->forks[phi->r_fork].state))
+			get_forks(phi, phi->v);
+		phi->last_meal = get_time_ms();
+		pthread_mutex_lock(&(phi->v->print));
+                printf("%ld %d is eating\n", get_time_ms(), phi->id);
+                pthread_mutex_unlock(&(phi->v->print));
+		ft_sleep(phi->v->tt_eat, phi->v, phi);
+		release_forks(phi, phi->v);
+		//sleeping after eating and releasing fork mutex
+		pthread_mutex_lock(&(phi->v->print));
+		printf("%ld %d is sleeping\n", get_time_ms(), phi->id);
+		pthread_mutex_unlock(&(phi->v->print));
+		ft_sleep(phi->v->tt_sleep, phi->v, phi);
+	}	
 	return (NULL);
 }
 
-void	init_vars(t_var *v)
+int	init_vars(t_var *v)
 {
 	int	i;
 
-	i = -1;
 	v->nb_philo = NBPHILO;
 	v->nb_meal = NBMEAL;
 	v->tt_eat = TTEAT;
@@ -64,26 +102,46 @@ void	init_vars(t_var *v)
 	v->tt_die = TTDIE;
 	pthread_mutex_init(&(v->print), NULL);
 	v->philos = malloc(sizeof(t_philo) * v->nb_philo);
+	if (v->philos == NULL)
+		return (MALLOC_ERROR);
+	v->forks = malloc(sizeof(t_fork) * v->nb_philo);
+	if (v->forks == NULL)
+		return (MALLOC_ERROR);
+	i = -1;
 	while (++i < v->nb_philo)
 	{
+		if (i == v->nb_philo - 1)
+			v->philos[i].l_fork = 0;
+		else
+			v->philos[i].l_fork = i + 1;
+		v->philos[i].r_fork = i;
 		v->philos[i].id = i + 1;
 		v->philos[i].v = v;
 		v->philos[i].last_meal = get_time_ms();
-		pthread_create(&(v->philos[i].philo), NULL, thread_func, (void *)&(v->philos[i]));
-		//init 
-	}
-	i = -1;
-	while (++i < v->nb_philo)
+		v->philos[i].state = 0;
+		v->forks[i].state = 0;
+		pthread_mutex_init(&(v->forks[i].forkex), NULL);
+		pthread_create(&(v->philos[i].philo), NULL, thread_func, (void *)&(v->philos[i])); 
 		pthread_join(v->philos[i].philo, NULL);
+	}
+	return (SUCCESS);
 }
 
 int	main(int argc, char **argv)
 {
-	t_var	vars;
+	t_var	v;
 
 	(void) argc;
 	(void) argv;
-	init_vars(&vars);
-	free(vars.philos);
+	if (init_vars(&v) == MALLOC_ERROR)
+	{
+		if (v.philos)
+			free(v.philos);
+		if (v.forks)
+			free(v.forks);
+		return (FAILURE);
+	}
+	free(v.philos);
+	free(v.forks);
 	return (0);
 }

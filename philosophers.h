@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:29:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/09/30 17:21:39 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/10/01 14:21:19 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@
 # include <sys/time.h>
 # define NBPHILO 5
 # define NBMEAL 10
-# define TTEAT 50
-# define TTSLEEP 50
-# define TTDIE 200
+# define TTEAT 200
+# define TTSLEEP 200
+# define TTDIE 500
 # define SUCCESS 1
 # define FAILURE -1
+# define MALLOC_ERROR -5
 
 typedef struct s_fork
 {
-	int		id;
 	pthread_mutex_t forkex;
 	int		state;
 }		t_fork;
@@ -38,6 +38,9 @@ typedef struct s_philo
 	struct s_var	*v;
 	int		id;
 	int		nb_meal;
+	int		state;
+	int		l_fork;
+	int		r_fork;
 	long		last_meal;
 	
 }		t_philo;
