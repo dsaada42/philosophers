@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:29:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/10/01 14:21:19 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/10/01 16:02:06 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-# define NBPHILO 5
+# define NBPHILO 6
 # define NBMEAL 10
 # define TTEAT 200
 # define TTSLEEP 200
