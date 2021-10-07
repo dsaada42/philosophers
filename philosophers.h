@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:29:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/10/01 16:02:06 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/10/07 15:22:33 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <sys/time.h>
-# define NBPHILO 6
+# define NBPHILO 9
 # define NBMEAL 10
 # define TTEAT 200
 # define TTSLEEP 200
@@ -52,9 +52,13 @@ typedef struct s_var
 	int		tt_eat;
 	int		tt_sleep;
 	int		tt_die;
+	int		flag;
 	t_philo		*philos;
 	t_fork		*forks;
 	pthread_mutex_t	print;
 }		t_var;
+
+int release_forks(t_philo *phi, t_var *v);
+int get_forks(t_philo *phi, t_var *v);
 
 #endif
