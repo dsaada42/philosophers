@@ -6,7 +6,7 @@
 #    By: dsaada <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 13:30:33 by dsaada            #+#    #+#              #
-#    Updated: 2021/09/30 17:07:13 by dsaada           ###   ########.fr        #
+#    Updated: 2021/10/07 17:48:18 by dsaada           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,11 @@ DEBUG = -g3 -fsanitize=address
 
 CFLAGS = -Wall -Wextra
 
-SRC = main.c 
+SRC = ./src/main.c\
+	  ./src/time.c\
+	  ./src/forks.c\
+	  ./src/init.c\
+	  ./src/parser.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -31,7 +35,7 @@ $(NAME): $(OBJ)
 all: $(NAME)
 
 clean:
-	rm -f *.o
+	rm -f ./src/*.o
 
 fclean: clean
 	rm -f $(NAME)
