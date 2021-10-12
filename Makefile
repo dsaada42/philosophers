@@ -6,7 +6,7 @@
 #    By: dsaada <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 13:30:33 by dsaada            #+#    #+#              #
-#    Updated: 2021/10/07 17:48:18 by dsaada           ###   ########.fr        #
+#    Updated: 2021/10/12 14:29:35 by dsaada           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,8 @@ OBJ = $(SRC:.c=.o)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME): $(OBJ)
-	$(CC) $(OBJ) $(DEBUG) -lpthread -o $(NAME)
+$(NAME): $(OBJ) ./src/philosophers.h
+	$(CC) $(OBJ) -lpthread -o $(NAME)
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:35:57 by dsaada            #+#    #+#             */
-/*   Updated: 2021/10/07 18:22:21 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/10/12 14:52:40 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	parser(t_var *v, int argc, char **argv)
 			return (FAILURE);
 	}
 	v->nb_philo = ft_atoi(argv[1]);
-	if (v->nb_philo < 2)
+	if (v->nb_philo < 1)
 		return (FAILURE);
 	v->tt_die = ft_atoi(argv[2]);
 	v->tt_eat = ft_atoi(argv[3]);
