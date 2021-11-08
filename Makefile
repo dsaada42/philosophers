@@ -6,7 +6,7 @@
 #    By: dsaada <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 13:30:33 by dsaada            #+#    #+#              #
-#    Updated: 2021/11/08 13:07:24 by dsaada           ###   ########.fr        #
+#    Updated: 2021/11/08 17:22:13 by dsaada           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CC = gcc
 
 DEBUG = -g3 -fsanitize=thread
 
-CFLAGS = -Wall -Wextra
+CFLAGS = -Wall -Wextra -Werror
 
 SRC = ./src/main.c\
 	  ./src/time.c\
