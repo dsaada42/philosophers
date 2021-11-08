@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 13:27:57 by dsaada            #+#    #+#             */
-/*   Updated: 2021/11/08 14:20:35 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/08 16:19:51 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	eat_routine(t_philo *phi)
 {
 	get_forks(phi, phi->v);
 	phi->last_meal = get_time_ms();
-	//pthread_mutex_lock(&(phi->v->print));
 	if (phi->v->flag == 0)
 		printf("%ld %d is eating\n",
 			get_time_ms() - phi->v->s_time, phi->id);

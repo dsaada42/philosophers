@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:04:35 by dsaada            #+#    #+#             */
-/*   Updated: 2021/11/08 14:20:45 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/08 16:20:00 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	get_forks(t_philo *phi, t_var *v)
 		printf("%ld %d has taken a fork\n",
 			get_time_ms() - v->s_time, phi->id);
 	}
-	//pthread_mutex_unlock(&(v->print));
 	return (SUCCESS);
 }
 
