@@ -6,7 +6,7 @@
 #    By: dsaada <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/24 13:30:33 by dsaada            #+#    #+#              #
-#    Updated: 2021/10/12 14:29:35 by dsaada           ###   ########.fr        #
+#    Updated: 2021/11/08 13:07:24 by dsaada           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philosophers
 
 CC = gcc
 
-DEBUG = -g3 -fsanitize=address
+DEBUG = -g3 -fsanitize=thread
 
 CFLAGS = -Wall -Wextra
 

@@ -6,11 +6,25 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:05:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/10/07 18:34:05 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/08 14:20:42 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+static int	init_philos_even(t_var *v)
+{
+	int	i;
+
+	i = -1;
+	while (++i < v->nb_philo)
+	{
+		if (v->philos[i].id % 2 == 0)
+			pthread_create(&(v->philos[i].philo), NULL, ft_thread,
+				(void *)&(v->philos[i]));
+	}
+	return (SUCCESS);
+}
 
 static int	init_philos(t_var *v)
 {
@@ -29,9 +43,11 @@ static int	init_philos(t_var *v)
 		v->philos[i].v = v;
 		v->philos[i].last_meal = get_time_ms();
 		v->philos[i].state = 0;
-		pthread_create(&(v->philos[i].philo), NULL, ft_thread,
-			(void *)&(v->philos[i]));
+		if (v->philos[i].id % 2)
+			pthread_create(&(v->philos[i].philo), NULL, ft_thread,
+				(void *)&(v->philos[i]));
 	}
+	init_philos_even(v);
 	i = -1;
 	while (++i < v->nb_philo)
 		pthread_join(v->philos[i].philo, NULL);
@@ -57,6 +73,7 @@ int	init_vars(t_var *v)
 		v->forks[i].state = 0;
 		pthread_mutex_init(&(v->forks[i].forkex), NULL);
 	}
+	v->s_time = get_time_ms();
 	init_philos(v);
 	return (SUCCESS);
 }
