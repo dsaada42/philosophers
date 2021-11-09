@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:06:42 by dsaada            #+#    #+#             */
-/*   Updated: 2021/11/08 14:20:48 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/09 15:00:29 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_sleep(int ms, t_var *v, t_philo *philo)
 			pthread_mutex_unlock(&(v->print));
 			return (FAILURE);
 		}
+		usleep(100);
 	}
 	return (SUCCESS);
 }
@@ -66,6 +67,7 @@ int	ft_eat(int ms, t_var *v, t_philo *philo)
 			pthread_mutex_unlock(&(v->print));
 			return (FAILURE);
 		}
+		usleep(100);
 	}
 	philo->nb_meal++;
 	return (SUCCESS);
@@ -88,6 +90,7 @@ int	ft_think(t_var *v, t_philo *philo)
 			pthread_mutex_unlock(&(v->print));
 			return (FAILURE);
 		}
+		usleep(100);
 	}
 	return (SUCCESS);
 }

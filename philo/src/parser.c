@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:35:57 by dsaada            #+#    #+#             */
-/*   Updated: 2021/10/12 14:52:40 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/09 14:45:34 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	parser(t_var *v, int argc, char **argv)
 	v->tt_die = ft_atoi(argv[2]);
 	v->tt_eat = ft_atoi(argv[3]);
 	v->tt_sleep = ft_atoi(argv[4]);
+	if (v->tt_die < 0 || v->tt_sleep < 0 || v->tt_eat < 0)
+		return (FAILURE);
 	if (argc == 6)
 		v->nb_meal = ft_atoi(argv[5]);
 	else

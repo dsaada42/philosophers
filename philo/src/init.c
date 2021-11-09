@@ -6,7 +6,7 @@
 /*   By: dsaada <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/07 17:05:47 by dsaada            #+#    #+#             */
-/*   Updated: 2021/11/09 13:54:21 by dsaada           ###   ########.fr       */
+/*   Updated: 2021/11/09 15:00:25 by dsaada           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static int	init_philos_thread(t_var *v)
 	}
 	i = -1;
 	while (++i < v->nb_philo)
-    {
-        if (v->philos[i].id % 2 == 0)
-            pthread_create(&(v->philos[i].philo), NULL, ft_thread,
-                (void *)&(v->philos[i]));
-    }
+	{
+		if (v->philos[i].id % 2 == 0)
+			pthread_create(&(v->philos[i].philo), NULL, ft_thread,
+				(void *)&(v->philos[i]));
+	}
 	return (SUCCESS);
 }
 
