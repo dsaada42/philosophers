@@ -67,10 +67,8 @@ int	parser(t_var *v, int argc, char **argv)
 	if (argc < 5 || argc > 6)
 		return (FAILURE);
 	while (++i < argc)
-	{
 		if (check_arg(argv[i]) == FAILURE)
 			return (FAILURE);
-	}
 	v->nb_philo = ft_atoi(argv[1]);
 	if (v->nb_philo < 1)
 		return (FAILURE);

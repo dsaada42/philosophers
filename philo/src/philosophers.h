@@ -63,5 +63,6 @@ int		release_forks(t_philo *phi, t_var *v);
 int		init_vars(t_var *v);
 void	*ft_thread(void *data);
 int		parser(t_var *v, int argc, char **argv);
+int		mutex_destroyer(t_var *v);
 
 #endif

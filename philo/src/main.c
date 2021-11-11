@@ -99,14 +99,16 @@ int	main(int argc, char **argv)
 
 	if (parser(&v, argc, argv) == FAILURE)
 		return (FAILURE);
-	if (init_vars(&v) == MALLOC_ERROR)
+	if (init_vars(&v) == FAILURE)
 	{
 		if (v.philos)
 			free(v.philos);
 		if (v.forks)
 			free(v.forks);
+		mutex_destroyer(&v);
 		return (FAILURE);
 	}
+	mutex_destroyer(&v);
 	free(v.philos);
 	free(v.forks);
 	return (0);

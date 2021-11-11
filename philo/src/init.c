@@ -20,15 +20,17 @@ static int	init_philos_thread(t_var *v)
 	while (++i < v->nb_philo)
 	{
 		if (v->philos[i].id % 2 == 1)
-			pthread_create(&(v->philos[i].philo), NULL, ft_thread,
-				(void *)&(v->philos[i]));
+			if (pthread_create(&(v->philos[i].philo), NULL, ft_thread,
+					(void *)&(v->philos[i])))
+				return (FAILURE);
 	}
 	i = -1;
 	while (++i < v->nb_philo)
 	{
 		if (v->philos[i].id % 2 == 0)
-			pthread_create(&(v->philos[i].philo), NULL, ft_thread,
-				(void *)&(v->philos[i]));
+			if (pthread_create(&(v->philos[i].philo), NULL, ft_thread,
+					(void *)&(v->philos[i])))
+				return (FAILURE);
 	}
 	return (SUCCESS);
 }
@@ -51,10 +53,12 @@ static int	init_philos(t_var *v)
 		v->philos[i].last_meal = get_time_ms();
 		v->philos[i].state = 0;
 	}
-	init_philos_thread(v);
+	if (init_philos_thread(v) == FAILURE)
+		return (FAILURE);
 	i = -1;
 	while (++i < v->nb_philo)
-		pthread_join(v->philos[i].philo, NULL);
+		if (pthread_join(v->philos[i].philo, NULL))
+			return (FAILURE);
 	return (SUCCESS);
 }
 
@@ -64,13 +68,14 @@ int	init_vars(t_var *v)
 
 	v->flag = 0;
 	v->nb_done = 0;
+	v->forks = NULL;
 	pthread_mutex_init(&(v->print), NULL);
 	v->philos = malloc(sizeof(t_philo) * v->nb_philo);
 	if (v->philos == NULL)
-		return (MALLOC_ERROR);
+		return (FAILURE);
 	v->forks = malloc(sizeof(t_fork) * v->nb_philo);
 	if (v->forks == NULL)
-		return (MALLOC_ERROR);
+		return (FAILURE);
 	i = -1;
 	while (++i < v->nb_philo)
 	{
@@ -79,5 +84,18 @@ int	init_vars(t_var *v)
 	}
 	v->s_time = get_time_ms();
 	init_philos(v);
+	return (SUCCESS);
+}
+
+int	mutex_destroyer(t_var *v)
+{
+	int	i;
+
+	i = -1;
+	pthread_mutex_destroy(&(v->print));
+	while (++i < v->nb_philo)
+	{
+		pthread_mutex_destroy(&(v->forks[i].forkex));
+	}
 	return (SUCCESS);
 }
